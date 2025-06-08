@@ -103,3 +103,12 @@ def send_logs(message):
 # Polling to keep both bots running
 main_bot.polling()
 monitoring_bot.polling()
+import requests
+
+bot_token = '7637390285:AAHv_nWEZcvbZ9yTnQCklcpkTn8X-dFiN5o'  # توکن بات خودتون
+
+url = f"https://api.telegram.org/bot{7637390285:AAHv_nWEZcvbZ9yTnQCklcpkTn8X-dFiN5o}/deleteWebhook"
+
+response = requests.post(url)
+print(response.json())
+
