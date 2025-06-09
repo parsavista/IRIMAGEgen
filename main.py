@@ -44,13 +44,13 @@ def generate_image(message):
             payload = {
                 "prompt": user_prompt,
                 "negative_prompt": "(worst quality, low quality, normal quality, lowres, low details, oversaturated, undersaturated, overexposed, underexposed, grayscale, bw, bad photo, bad photography, bad art)++++, (watermark, signature, text font, username, error, logo, words, letters, digits, autograph, trademark, name)+, (blur, blurry, grainy), morbid, ugly, asymmetrical, mutated malformed, mutilated, poorly lit, bad shadow, draft, cropped, out of frame, cut off, censored, jpeg artifacts, out of focus, glitch, duplicate, (airbrushed, cartoon, anime, semi-realistic, cgi, render, blender, digital art, manga, amateur)++, (3D ,3D Game, 3D Game Scene, 3D Character), (bad hands, bad anatomy, bad body, bad face, bad teeth, bad arms, bad legs, deformities)++",
-                "scheduler": "dpmpp_2m",
-                "num_inference_steps": 25,
-                "guidance_scale": 5,
+                "scheduler": "DPM++ 2M Karras",
+                "num_inference_steps": 40,
+                "guidance_scale": 8,
                 "samples": 1,
                 "seed": random_seed,
-                "img_width": 512,
-                "img_height": 768,
+                "img_width": 1024,
+                "img_height": 1536, 
                 "base64": False
             }
             api_url = "https://api.segmind.com/v1/sd1.5-juggernaut"
@@ -60,15 +60,7 @@ def generate_image(message):
             }
             response = requests.post(api_url, headers=headers, data=json.dumps(payload))
             model_info = response.headers.get('X-Model')
-            caption = (
-                f"Model: {model_info}\n"
-                f"LoRa's: {response.headers.get('X-LoRas')}\n"
-                f"Size: {payload['img_width']}x{payload['img_height']}\n"
-                f"Steps: {payload['num_inference_steps']}\n"
-                f"Sampler: {payload['scheduler']}\n"
-                f"CFG: {payload['guidance_scale']}\n"
-                f"Seed: {payload['seed']}"
-            )
+            caption = f"🎮 Prompt:\n{user_prompt}"
             main_bot.send_photo(message.chat.id, response.content, caption=caption, reply_to_message_id=message.message_id)
         else:
             main_bot.reply_to(message, "Please provide a prompt after the /gen command. For example, /gen YourPromptHere")
@@ -100,15 +92,4 @@ def send_logs(message):
     logs = "Some logs or monitoring data here..."
     monitoring_bot.send_message(chat_id, logs)
 
-# Polling to keep both bots running
-main_bot.polling()
-monitoring_bot.polling()
-import requests
-
-bot_token = '7637390285:AAHv_nWEZcvbZ9yTnQCklcpkTn8X-dFiN5o'  # توکن بات خودتون
-
-url = f"https://api.telegram.org/bot{7637390285:AAHv_nWEZcvbZ9yTnQCklcpkTn8X-dFiN5o}/deleteWebhook"
-
-response = requests.post(url)
-print(response.json())
 
