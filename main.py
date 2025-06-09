@@ -24,12 +24,12 @@ def start(message):
     username = message.from_user.username if message.from_user.username else "User"
     start_message = (
         f"👋 Hello {username}!\n\n"
-        "This bot can generate realistic images from a text query or a photo using AI. Use the command /gen followed by your prompt. For example, /gen YourPromptHere 🙂\n\n"
-        "If you're unsure what to generate, visit our channel for examples and enjoy ❤️\n\n"
+        "Welcome to IR STUDIO BOT🙂\n\n"
+        "For more news and information visit our channel ❤️\n\n"
         "Links to the channel are available via the buttons below 👇"
     )
     inline_keyboard = types.InlineKeyboardMarkup()
-    channel_button = types.InlineKeyboardButton(text="Visit Channel", url="https://t.me/midjourneyArtwork89")
+    channel_button = types.InlineKeyboardButton(text="Visit Channel", url="https://t.me/irstudiogames")
     inline_keyboard.add(channel_button)
     main_bot.send_message(message.chat.id, start_message, reply_markup=inline_keyboard)
 
@@ -60,7 +60,7 @@ def generate_image(message):
             }
             response = requests.post(api_url, headers=headers, data=json.dumps(payload))
             model_info = response.headers.get('X-Model')
-            caption = f"🎮 Prompt:\n{user_prompt}"
+            caption = f"Prompt:\n{user_prompt}"
             main_bot.send_photo(message.chat.id, response.content, caption=caption, reply_to_message_id=message.message_id)
         else:
             main_bot.reply_to(message, "Please provide a prompt after the /gen command. For example, /gen YourPromptHere")
